@@ -16,7 +16,6 @@ while(True):
     #Red point with functions:
     b, g, r = cv2.split(frame) 
     red = r.astype(float) / (b.astype(float) + g.astype(float) + 1e-6)
-    #red = r -(b+g)
     red = (red*255).astype(np.uint8)
     min_val, max_val, min_loc, maxLoc = cv2.minMaxLoc(red)
     frame = cv2.circle(frame, maxLoc, 10, (255, 0, 0), 5) #Blue circle
@@ -30,7 +29,6 @@ while(True):
     #         if gray[i,j] > brightnessmax:
     #             brightnessmax = gray[i,j]
     #             brightest_location = (j,i)
-    #             print(brightnessmax)
     # frame = cv2.circle(frame, brightest_location, 10, (0, 0, 255), 5) #Red circle 
 
     end = time.time()
