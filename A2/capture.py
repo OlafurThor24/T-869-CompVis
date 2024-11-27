@@ -8,7 +8,7 @@ while(True):
     start = time.time()
     ret, frame = cap.read()
 
-    #Sett parameter values 
+    #Set parameter values 
     lower = 50  #Lower Threshold 
     upper = 150  #Upper threshold 
     
@@ -45,41 +45,39 @@ while(True):
         bestline = a,b,c
 
     #5. Draw the best line
-    if bestline is not None:
-        a, b, c = bestline
-        height, width = frame.shape[:2]
+    a, b, c = bestline
+    height, width = frame.shape[:2]
 
-        # Calculate intersection points with the frame boundaries
-        points = []
-                
-        if b != 0:
-            #Left edge (x = 0)
-            lefty = int(-c / b)
-            if 0 <= lefty < height:
-                points.append((0, lefty))
-            #Right edge (x = width - 1)
-            righty = int(-(a * (width - 1) + c) / b)
-            if 0 <= righty < height:
-                points.append((width - 1, righty))
+    #Calculate points on frame
+    points = []            
+    if b != 0:
+        #Left edge (x = 0)
+        lefty = int(-c / b)
+        if 0 <= lefty < height:
+            points.append((0, lefty))
+        #Right edge (x = width - 1)
+        righty = int(-(a * (width - 1) + c) / b)
+        if 0 <= righty < height:
+            points.append((width - 1, righty))
 
-        if a != 0:
-            #Top edge (y = 0)
-            topx = int(-c / a)
-            if 0 <= topx < width:
-                points.append((topx, 0))
-            #Bottom edge (y = height - 1)
-            botx = int(-(b * (height - 1) + c) / a)
-            if 0 <=botx < width:
-                points.append((botx, height - 1))
+    if a != 0:
+        #Top edge (y = 0)
+        topx = int(-c / a)
+        if 0 <= topx < width:
+            points.append((topx, 0))
+        #Bottom edge (y = height - 1)
+        botx = int(-(b * (height - 1) + c) / a)
+        if 0 <=botx < width:
+            points.append((botx, height - 1))
 
-        #Draw the line if at least two valid points are found
-        if len(points) >= 2:
-            cv2.line(frame, points[0], points[1], (0, 255, 0), 2)
+    #Draw the line if at least two valid points are found
+    if len(points) >= 2:
+        cv2.line(frame, points[0], points[1], (0, 255, 0), 2)
 
     #Old 5. Draw the best line between points Old
-    # pt1 = tuple(bestpoint1)  # Convert to tuple for OpenCV
-    # pt2 = tuple(bestpoint2)
-    # cv2.line(frame, pt1, pt2, (0, 255, 0), 2)  # Draw line in green
+    # point1 = tuple(bestpoint1)
+    # point2 = tuple(bestpoint2)
+    # cv2.line(frame, point1, point2, (0, 255, 0), 2)  #Line in green
     #frame = cv2.line(frame,(x_start,y_start),(x_end,y_end),(0,255,0),3)
 
     end = time.time()
