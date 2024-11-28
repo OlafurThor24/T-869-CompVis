@@ -12,7 +12,7 @@ while(True):
     gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
     # Use canny edge detection
-    edges = cv2.Canny(gray,10,90,apertureSize=3)
+    edges = cv2.Canny(gray,50,150,apertureSize=3)
 
     # Apply HoughLinesP method to 
     # to directly obtain line end points
@@ -21,9 +21,9 @@ while(True):
                 edges, # Input edge image
                 1, # Distance resolution in pixels
                 np.pi/180, # Angle resolution in radians
-                threshold=10, # Min number of votes for valid line
-                minLineLength=100, # Min allowed length of line
-                maxLineGap=50 # Max allowed gap between line for joining them
+                threshold=100, # Min number of votes for valid line
+                minLineLength=5, # Min allowed length of line
+                maxLineGap=10 # Max allowed gap between line for joining them
                 )
     # Iterate over points
     if lines is not None:
