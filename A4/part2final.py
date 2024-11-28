@@ -15,40 +15,6 @@ def find_intersection(line1, line2):
     x, y = intersection[0] / intersection[2], intersection[1] / intersection[2]
     return int(x), int(y)
 
-def is_crossed_quadrangle(points):
-    """Check if a quadrangle is crossed by detecting self-intersecting edges."""
-    def do_intersect(p1, q1, p2, q2):
-        """Check if line segments p1q1 and p2q2 intersect."""
-        def orientation(a, b, c):
-            """Find orientation of ordered triplet (a, b, c)."""
-            val = (b[1] - a[1]) * (c[0] - b[0]) - (b[0] - a[0]) * (c[1] - b[1])
-            if val == 0:
-                return 0  # Collinear
-            return 1 if val > 0 else 2  # Clockwise or Counterclockwise
-
-        o1 = orientation(p1, q1, p2)
-        o2 = orientation(p1, q1, q2)
-        o3 = orientation(p2, q2, p1)
-        o4 = orientation(p2, q2, q1)
-
-        # General case
-        if o1 != o2 and o3 != o4:
-            return True
-
-        # Special Cases
-        return False
-
-    # Check all pairs of edges
-    for i in range(4):
-        p1, q1 = points[i], points[(i + 1) % 4]
-        for j in range(i + 2, 4):
-            p2, q2 = points[j], points[(j + 1) % 4]
-            if (i == 0 and j == 3):  # Avoid checking adjacent edges
-                continue
-            if do_intersect(p1, q1, p2, q2):
-                return True
-    return False
-
 cap = cv2.VideoCapture(0)  # 0 for computer, 1 for phone
 
 # Resize scale factor
@@ -120,10 +86,6 @@ while True:
 
             if len(approx) == 4:  # Four-sided shape detected
                 points = approx.reshape(4, 2)
-
-                # Check if the quadrangle is self-intersecting
-                if is_crossed_quadrangle(points):
-                    continue  # Skip crossed quadrangles
 
                 # Draw the quadrangle
                 cv2.drawContours(frame, [approx], 0, (0, 255, 0), 2)
