@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import time
-import itertools
 
 def line_to_homogeneous(line):
     """Convert a line in pixel coordinates to its homogeneous representation."""
