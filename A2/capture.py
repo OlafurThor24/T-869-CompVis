@@ -4,6 +4,9 @@ import numpy as np
 
 cap = cv2.VideoCapture(0) #0 for computer, 1 for phone
 
+bestline = 0
+mostinliers = 0
+
 while(True):
     start = time.time()
     ret, frame = cap.read()
@@ -15,19 +18,18 @@ while(True):
     #Canny Edge filter 
     edge = cv2.Canny(frame, lower, upper) 
 
-    #Get pixel coordinates where edges exist
+    #Get coordinates where edges exist
     y_index, x_index = np.nonzero(edge) 
     edge_points = np.column_stack((x_index, y_index)) 
 
     #Find the best line
     #0. Set d(threshold), N(iterations) and initialize variables
-    N = 150 #Iterations
-    d = 5 #Threshold
-    bestline = 0
-    mostinliers = 0
+    N = 2000 #Iterations
+    d = 0.5 #Threshold
+    
     for i in range(N):
         #1. Get 2 random points from edgepoints
-        randomvalues = np.random.choice(edge_points.shape[0], 2, replace=False)
+        randomvalues = np.random.choice(edge_points.shape[0], 2)
         randompoint1,randompoint2 = edge_points[randomvalues]
         #2. Set a line across with 2 points
         a = randompoint2[1] - randompoint1[1]  # y2 - y1
