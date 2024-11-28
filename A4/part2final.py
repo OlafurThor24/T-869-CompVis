@@ -104,9 +104,9 @@ while True:
     end = time.time()
     elapsed_time = end - start
     fps = 1 / elapsed_time if elapsed_time > 0 else 0
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    txt = "FPS: {fps:.2f}"
-    cv2.putText(frame, txt.format(fps=fps), (10, 30), font, 1, (255, 255, 255), 2)
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+    txt ="FPS: {fps:.2f}"
+    cv2.putText(frame, txt.format(fps = fps),  (200, 440), font, 1, (255, 255, 255), 2, cv2.LINE_4) 
 
     # Show intermediate results
     cv2.imshow('frame', frame)
